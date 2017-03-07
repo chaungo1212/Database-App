@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <stdio.h>
+#include <stdlib.h>
 
 using namespace std;
 using DB = Database::Database;
@@ -20,39 +22,14 @@ int main()
 	/*
 		parse JSON Format files and populate DB object
 	*/
+	string file_line = "";
+	int line_count = 100;
 
 	// Create Users Table
 	ifstream user_file("Yelp Data/yelp_academic_dataset_user.json");
-	vector<string> user_attributes{ "user_id", "name" };
+	vector<string> user_attributes{ "user_id", "name", "review_count", "yelping_since", "average_stars" };
 	Table* users = new Table(user_attributes);
-	/*
-	users->add_attribute("user_id");
-	users->add_attribute("name");
-	users->add_attribute("review_count");
-	users->add_attribute("yelping_since");
-	users->add_attribute("friends");
-	users->add_attribute("useful");
-	users->add_attribute("funny");
-	users->add_attribute("cool");
-	users->add_attribute("fans");
-	users->add_attribute("elite");
-	users->add_attribute("average_stars");
-	users->add_attribute("compliment_hot");
-	users->add_attribute("compliment_more");
-	users->add_attribute("compliment_profile");
-	users->add_attribute("compliment_cute");
-	users->add_attribute("compliment_list");
-	users->add_attribute("compliment_note");
-	users->add_attribute("compliment_plain");
-	users->add_attribute("compliment_cool");
-	users->add_attribute("compliment_funny");
-	users->add_attribute("compliment_writer");
-	users->add_attribute("compliment_photos");
-	users->add_attribute("type");
-	*/
 
-	string file_line = "";
-	int line_count = 10;
 	for (int i = 0; i < line_count; i++)
 	{
 		if (getline(user_file, file_line))
@@ -61,15 +38,72 @@ int main()
 			Record r(user_attributes.size());
 			for (int j = 0; j < user_attributes.size(); j++)
 			{
-				r.set(j, user[user_attributes.at(j)]);
+				auto val = user[user_attributes.at(j)];
+				if (val.type() == json::value_t::string)
+					r.set(j, val);
+				else if (val.type() == json::value_t::number_unsigned)
+				{
+					int val_int = val;
+					r.set(j, to_string(val_int));
+				}
 			}
 			users->add_record(r);
 		}
 	}
-	
-	map<string, Record> user_records = users->get_records();
-	cout << user_records["0"].get(0) << endl;
-	//create Business table
+
+	// Create Business table
+	ifstream business_file("Yelp Data/yelp_academic_dataset_business.json");
+	vector<string> business_attributes{ "business_id", "name", "postal code", "stars", "review_count" };
+	Table* businesses = new Table(business_attributes);
+
+	for (int i = 0; i < line_count; i++)
+	{
+		if (getline(business_file, file_line))
+		{
+			json business = json::parse(file_line.c_str());
+			Record r(business_attributes.size());
+			for (int j = 0; j < business_attributes.size(); j++)
+			{
+				auto val = business[business_attributes.at(j)];
+				if (val.type() == json::value_t::string)
+					r.set(j, val);
+				else if (val.type() == json::value_t::number_unsigned)
+				{
+					int val_int = val;
+					r.set(j, to_string(val_int));
+				}
+			}
+			businesses->add_record(r);
+		}
+	}
+
+	// Create Review Table
+	ifstream review_file("Yelp Data/yelp_academic_dataset_review.json");
+	vector<string> review_attributes{ "review_id", "user_id", "business_id", "stars", "date", "text" };
+	Table* reviews = new Table(review_attributes);
+
+	for (int i = 0; i < line_count; i++)
+	{
+		if (getline(review_file, file_line))
+		{
+			json review = json::parse(file_line.c_str());
+			Record r(review_attributes.size());
+			for (int j = 0; j < review_attributes.size(); j++)
+			{
+				auto val = review[review_attributes.at(j)];
+				if (val.type() == json::value_t::string)
+					r.set(j, val);
+				else if (val.type() == json::value_t::number_unsigned)
+				{
+					int val_int = val;
+					r.set(j, to_string(val_int));
+				}
+			}
+			reviews->add_record(r);
+		}
+	}
+
+
 	//create User x Review table
 	//create Business x Review table
 
