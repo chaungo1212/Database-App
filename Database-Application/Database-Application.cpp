@@ -5,16 +5,70 @@
 #include "Database.h"
 #include <iostream>
 #include <string>
+#include <fstream>
 
 using namespace std;
+using DB = Database::Database;
+using Table = Database::Table;
+using Record = Database::Record;
+using json = nlohmann::json;
 
 int main()
 {
-	Database::Database* d = new Database::Database();
+	DB* d = new DB();
 	
-	//parse JSON Format files and popu;ate DB object
+	/*
+		parse JSON Format files and populate DB object
+	*/
 
-	//create User table
+	// Create Users Table
+	ifstream user_file("Yelp Data/yelp_academic_dataset_user.json");
+	vector<string> user_attributes{ "user_id", "name" };
+	Table* users = new Table(user_attributes);
+	/*
+	users->add_attribute("user_id");
+	users->add_attribute("name");
+	users->add_attribute("review_count");
+	users->add_attribute("yelping_since");
+	users->add_attribute("friends");
+	users->add_attribute("useful");
+	users->add_attribute("funny");
+	users->add_attribute("cool");
+	users->add_attribute("fans");
+	users->add_attribute("elite");
+	users->add_attribute("average_stars");
+	users->add_attribute("compliment_hot");
+	users->add_attribute("compliment_more");
+	users->add_attribute("compliment_profile");
+	users->add_attribute("compliment_cute");
+	users->add_attribute("compliment_list");
+	users->add_attribute("compliment_note");
+	users->add_attribute("compliment_plain");
+	users->add_attribute("compliment_cool");
+	users->add_attribute("compliment_funny");
+	users->add_attribute("compliment_writer");
+	users->add_attribute("compliment_photos");
+	users->add_attribute("type");
+	*/
+
+	string file_line = "";
+	int line_count = 10;
+	for (int i = 0; i < line_count; i++)
+	{
+		if (getline(user_file, file_line))
+		{
+			json user = json::parse(file_line.c_str());
+			Record r(user_attributes.size());
+			for (int j = 0; j < user_attributes.size(); j++)
+			{
+				r.set(j, user[user_attributes.at(j)]);
+			}
+			users->add_record(r);
+		}
+	}
+	
+	map<string, Record> user_records = users->get_records();
+	cout << user_records["0"].get(0) << endl;
 	//create Business table
 	//create User x Review table
 	//create Business x Review table
