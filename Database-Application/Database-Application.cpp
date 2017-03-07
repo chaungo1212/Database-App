@@ -17,7 +17,7 @@ using json = nlohmann::json;
 
 int main()
 {
-	DB* d = new DB();
+	DB* yelp_data = new DB();
 	
 	/*
 		parse JSON Format files and populate DB object
@@ -50,6 +50,7 @@ int main()
 			users->add_record(r);
 		}
 	}
+	yelp_data->add_table(*users, "users");
 
 	// Create Business table
 	ifstream business_file("Yelp Data/yelp_academic_dataset_business.json");
@@ -76,6 +77,7 @@ int main()
 			businesses->add_record(r);
 		}
 	}
+	yelp_data->add_table(*businesses, "businesses");
 
 	// Create Review Table
 	ifstream review_file("Yelp Data/yelp_academic_dataset_review.json");
@@ -102,6 +104,7 @@ int main()
 			reviews->add_record(r);
 		}
 	}
+	yelp_data->add_table(*reviews, "reviews");
 
 
 	//create User x Review table
