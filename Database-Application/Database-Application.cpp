@@ -27,7 +27,7 @@ int main()
 
 	// Create Users Table
 	ifstream user_file("Yelp Data/yelp_academic_dataset_user.json");
-	vector<string> user_attributes{ "user_id", "name", "review_count", "yelping_since", "average_stars" };
+	vector<string> user_attributes{ "user_id", "name", "review_count", "yelping_since", "fans", "average_stars" };
 	Table* users = new Table(user_attributes);
 
 	for (int i = 0; i < line_count; i++)
@@ -103,7 +103,7 @@ int main()
 		}
 	}
 	yelp_data->Add("reviews", reviews);
-
+	/*
 	//create User x Review table
 	vector<string> user_review_attributes{ "review_id", "user_id", "stars", "date", "text" };
 	Table* user_review = new Table(user_review_attributes);
@@ -115,15 +115,14 @@ int main()
 	*business_review = businesses->natural_join(*businesses, *reviews);
 
 	//Max and Min for user
-//	string user_max = users->maximum("review_id");
-//	string user_min = users->minimum("review_id");
+	//	string user_max = users->maximum("review_id");
+	//	string user_min = users->minimum("review_id");
 
 	//Max and Min for business
-//	string business_max = businesses->maximum("review_id");
-//	string business_min = businesses->minimum("review_id");
-
-
-
+	//	string business_max = businesses->maximum("review_id");
+	//	string business_min = businesses->minimum("review_id");
+	*/
+	
 	cout << "Options: " << endl
 		<< "1) Print info about a given User" << endl
 		<< "2) Print info about a given Business" << endl
@@ -153,6 +152,7 @@ int main()
 		}
 		else if (command == "1")
 		{
+			/*
 			string userID;
 			cout << "Enter User ID: ";
 			cin >> userID;
@@ -162,14 +162,16 @@ int main()
 
 			//should print "NA" for unavailable data points
 			cout << "User ID: " << user.get(0) << endl
-				<< "Name: " << user.get(1) << endl
-				<< "Number of reviews: " << user.get(2) << endl
-				<< "Yelping since: " << user.get(3) << endl
-				<< "Average review rating: " << user.get(4) << endl;
+			<< "Name: " << user.get(1) << endl
+			<< "Number of reviews: " << user.get(2) << endl
+			<< "Yelping since: " << user.get(3) << endl
+			<< "Average review rating: " << user.get(4) << endl;
+			*/
 
 		}
 		else if (command == "2")
 		{
+			/*
 			string businessID;
 			cout << "Enter Business ID: ";
 			cin >> businessID;
@@ -179,9 +181,10 @@ int main()
 
 			//should print "NA" for unavailable data points
 			cout << "Business ID: " << business.get(0) << endl
-				<< "Name: " << business.get(1) << endl
-				<< "Stars: " << business.get(2) << endl
-				<< "Number of reviews: " << business.get(3) << endl;
+			<< "Name: " << business.get(1) << endl
+			<< "Stars: " << business.get(2) << endl
+			<< "Number of reviews: " << business.get(3) << endl;
+			*/
 				
 		}
 		else if (command == "3")
