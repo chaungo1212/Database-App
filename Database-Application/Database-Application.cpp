@@ -132,9 +132,8 @@ int main()
 		<< "5) Max and Min reviews for a given User" << endl
 		<< "6) Max and Min reviews for a Buisness" << endl
 		<< "7) Find the most popular user in the data set" << endl
-		<< "8) Find the most connected user in the data set" << endl
-		<< "9) Find the user with the lowest scoring average reviews" << endl
-		<< "10) Find the user with the highest scoring average reviews" << endl
+		<< "8) Find the user with the lowest scoring average reviews" << endl
+		<< "9) Find the user with the highest scoring average reviews" << endl
 		<< "Q) Exit program" << endl;
 
 	cout << "Enter command: " << endl;
@@ -223,15 +222,12 @@ int main()
 		}
 		else if (command == "8")
 		{
-			cout << "finding the most connected user in the data set..." << endl;
+			cout << "Finding the user with the lowerst scoring average reviews..." << endl;
 		}
 		else if (command == "9")
 		{
-			cout << "Finding the user with the lowerst scoring average reviews..." << endl;
-		}
-		else if (command == "10")
-		{
 			cout << "Finding the user with the highest scoring average reviews..." << endl;
+
 		}
 		else
 		{
@@ -252,9 +248,8 @@ int main()
 			<< "5) Max and Min reviews for a given User" << endl
 			<< "6) Max and Min reviews for a Buisness" << endl
 			<< "7) Find the most popular user in the data set" << endl
-			<< "8) Find the most connected user in the data set" << endl
-			<< "9) Find the user with the lowest scoring average reviews" << endl
-			<< "10) Find the user with the highest scoring average reviews" << endl
+			<< "8) Find the user with the lowest scoring average reviews" << endl
+			<< "9) Find the user with the highest scoring average reviews" << endl
 			<< "Q) Exit program" << endl;
 
 		cout << "Enter command: " << endl;
