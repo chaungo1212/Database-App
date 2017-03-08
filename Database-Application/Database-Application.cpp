@@ -156,7 +156,7 @@ int main()
 			cout << "Enter User ID: ";
 			cin >> userID;
 			Record* user;
-			for(user = users->GetFirstRecord(); user != NULL; user++)
+			for(user = users->GetFirstRecord(); user != NULL; user=user->next)
 			{
 				if( user->Get(0) == userID ) 
 				{
@@ -176,7 +176,7 @@ int main()
 			cin >> businessID;
 
 			Record* business;
-			for(business = businesses->GetFirstRecord(); business != NULL; business++)
+			for(business = businesses->GetFirstRecord(); business != NULL; business=business->next)
 			{
 				if( business->Get(0) == businessID )
 				{
