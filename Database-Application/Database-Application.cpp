@@ -155,17 +155,17 @@ int main()
 			string userID;
 			cout << "Enter User ID: ";
 			cin >> userID;
-
+			Record* user;
 			for(user = users->GetFirstRecord(); user != NULL; user++)
 			{
 				if( user->Get(0) == userID ) 
 				{
 					//should print "NA" for unavailable data points
-					cout << "User ID: " << user.Get(0) << endl
-						<< "Name: " << user.Get(1) << endl
-						<< "Number of reviews: " << user.Get(2) << endl
-						<< "Yelping since: " << user.Get(3) << endl
-						<< "Average review rating: " << user.Get(4) << endl;
+					cout << "User ID: " << user->Get(0) << endl
+						<< "Name: " << user->Get(1) << endl
+						<< "Number of reviews: " << user->Get(2) << endl
+						<< "Yelping since: " << user->Get(3) << endl
+						<< "Average review rating: " << user->Get(4) << endl;
 				}
 			}
 		}
@@ -175,15 +175,16 @@ int main()
 			cout << "Enter Business ID: ";
 			cin >> businessID;
 
+			Record* business;
 			for(business = businesses->GetFirstRecord(); business != NULL; business++)
 			{
 				if( business->Get(0) == businessID )
 				{
 					//should print "NA" for unavailable data points
-					cout << "Business ID: " << business.Get(0) << endl
-						<< "Name: " << business.Get(1) << endl
-						<< "Stars: " << business.Get(2) << endl
-						<< "Number of reviews: " << business.Get(3) << endl;
+					cout << "Business ID: " << business->Get(0) << endl
+						<< "Name: " << business->Get(1) << endl
+						<< "Stars: " << business->Get(2) << endl
+						<< "Number of reviews: " << business->Get(3) << endl;
 				}
 			}	
 		}
