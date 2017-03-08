@@ -115,12 +115,12 @@ int main()
 	*business_review = businesses->natural_join(*businesses, *reviews);
 
 	//Max and Min for user
-	string user_max = users->maximum("review_id");
-	string user_min = users->minimum("review_id");
+//	string user_max = users->maximum("review_id");
+//	string user_min = users->minimum("review_id");
 
 	//Max and Min for business
-	string business_max = businesses->maximum("review_id");
-	string business_min = businesses->minimum("review_id");
+//	string business_max = businesses->maximum("review_id");
+//	string business_min = businesses->minimum("review_id");
 
 
 
