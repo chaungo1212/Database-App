@@ -1,6 +1,6 @@
 // Database-Application.cpp : Defines the entry point for the console application.
 //
-#include "stdafx.h"
+#include"stdafx.h"
 #include "json.hpp"
 #include "Database.h"
 #include <iostream>
@@ -18,12 +18,12 @@ using json = nlohmann::json;
 int main()
 {
 	DB* yelp_data = new DB();
-	
+
 	/*
-		parse JSON Format files and populate DB object
+	parse JSON Format files and populate DB object
 	*/
 	string file_line = "";
-	int line_count = 100;
+	int line_count = 10;
 
 	// Create Users Table
 	ifstream user_file("Yelp Data/yelp_academic_dataset_user.json");
@@ -56,7 +56,6 @@ int main()
 	ifstream business_file("Yelp Data/yelp_academic_dataset_business.json");
 	vector<string> business_attributes{ "business_id", "name", "postal code", "stars", "review_count" };
 	Table* businesses = new Table(business_attributes);
-
 	for (int i = 0; i < line_count; i++)
 	{
 		if (getline(business_file, file_line))
@@ -83,7 +82,6 @@ int main()
 	ifstream review_file("Yelp Data/yelp_academic_dataset_review.json");
 	vector<string> review_attributes{ "review_id", "user_id", "business_id", "stars", "date", "text" };
 	Table* reviews = new Table(review_attributes);
-
 	for (int i = 0; i < line_count; i++)
 	{
 		if (getline(review_file, file_line))
@@ -106,48 +104,64 @@ int main()
 	}
 	yelp_data->add_table(*reviews, "reviews");
 
-
 	//create User x Review table
+	vector<string> user_review_attributes{ "review_id", "user_id", "stars", "date", "text" };
+	Table* user_review = new Table(user_review_attributes);
+	*user_review = users->natural_join(*users, *reviews);
+
 	//create Business x Review table
+	vector<string> business_review_attributes{ "review_id", "business_id", "stars", "date", "text" };
+	Table* business_review = new Table(business_review_attributes);
+	*business_review = businesses->natural_join(*businesses, *reviews);
+	cout << "Here:" << business_review->get_size() << endl;
+
+	//Max and Min for user
+	string user_max = users->maximum("review_id");
+	string user_min = users->minimum("review_id");
+
+	//Max and Min for business
+	string business_max = businesses->maximum("review_id");
+	string business_min = businesses->minimum("review_id");
 
 
-	cout << "Options: " << endl 
+
+	cout << "Options: " << endl
 		<< "1) Print info about a given User" << endl
 		<< "2) Print info about a given Business" << endl
-		<< "3) Show the reviews for a given User" << endl 
+		<< "3) Show the reviews for a given User" << endl
 		<< "4) Show the reviews for a given Business" << endl
 		<< "5) Max and Min reviews for a given User" << endl
-		<< "6) Max and Min reviews for a buisness" << endl
-		<< "7) find the most popular user in the data set" << endl
+		<< "6) Max and Min reviews for a Buisness" << endl
+		<< "7) Find the most popular user in the data set" << endl
 		<< "8) Find the most connected user in the data set" << endl
 		<< "9) Find the user with the lowest scoring average reviews" << endl
-		<< "10) find the user with the highest scoring average reviews" << endl 
+		<< "10) Find the user with the highest scoring average reviews" << endl
 		<< "Q) Exit program" << endl;
 
 	cout << "Enter command: " << endl;
 
-	string command; 
+	string command;
 
 
 	//char input[256];
 
-	while(cin >> command) 
+	while (cin >> command)
 	{
 		//string command = input; 
 
-		if(command == "Q")
+		if (command == "Q")
 		{
-			break; 
+			break;
 		}
-		else if(command == "1")
+		else if (command == "1")
 		{
 			string userID;
 			cout << "Enter User ID: ";
-			cin >> userID; 
+			cin >> userID;
 
-			cout << "option 1 chosen" <<  endl;
+			cout << "option 1 chosen" << endl;
 		}
-		else if (command == "2") 
+		else if (command == "2")
 		{
 			string businessID;
 			cout << "Enter Business ID: ";
@@ -155,7 +169,7 @@ int main()
 
 			cout << "option 2 chosen" << endl;
 		}
-		else if (command == "3") 
+		else if (command == "3")
 		{
 			string userID;
 			cout << "Enter User ID: ";
@@ -163,15 +177,15 @@ int main()
 
 			cout << "option 3 chosen" << endl;
 		}
-		else if (command == "4") 
-		{	
+		else if (command == "4")
+		{
 			string businessID;
 			cout << "Enter Business ID: ";
 			cin >> businessID;
 
 			cout << "option 4 chosen" << endl;
 		}
-		else if (command == "5") 
+		else if (command == "5")
 		{
 			string userID;
 			cout << "Enter User ID: ";
@@ -191,41 +205,41 @@ int main()
 		{
 			cout << "Finding the most popular user in the data set..." << endl;
 		}
-		else if (command == "8") 
+		else if (command == "8")
 		{
-			cout << "finding the most connected user in teh data set..." << endl;
+			cout << "finding the most connected user in the data set..." << endl;
 		}
 		else if (command == "9")
 		{
 			cout << "Finding the user with the lowerst scoring average reviews..." << endl;
 		}
-		else if (command == "10") 
+		else if (command == "10")
 		{
 			cout << "Finding the user with the highest scoring average reviews..." << endl;
 		}
-		else 
+		else
 		{
 			cout << "Command not recognized, try again!" << endl;
 		}
 
-		cout << endl; 
-
-		
+		cout << endl;
 
 
 
-		cout << "Options: " << endl 
-		<< "1) Print info about a given User" << endl
-		<< "2) Print info about a given Business" << endl
-		<< "3) Show the reviews for a given User" << endl 
-		<< "4) Show the reviews for a given Business" << endl
-		<< "5) Max and Min reviews for a given User" << endl
-		<< "6) Max and Min reviews for a buisness" << endl
-		<< "7) find the most popular user in the data set" << endl
-		<< "8) Find the most connected user in the data set" << endl
-		<< "9) Find the user with the lowest scoring average reviews" << endl
-		<< "10) find the user with the highest scoring average reviews" << endl 
-		<< "Q) Exit program" << endl;
+
+
+		cout << "Options: " << endl
+			<< "1) Print info about a given User" << endl
+			<< "2) Print info about a given Business" << endl
+			<< "3) Show the reviews for a given User" << endl
+			<< "4) Show the reviews for a given Business" << endl
+			<< "5) Max and Min reviews for a given User" << endl
+			<< "6) Max and Min reviews for a Buisness" << endl
+			<< "7) Find the most popular user in the data set" << endl
+			<< "8) Find the most connected user in the data set" << endl
+			<< "9) Find the user with the lowest scoring average reviews" << endl
+			<< "10) Find the user with the highest scoring average reviews" << endl
+			<< "Q) Exit program" << endl;
 
 		cout << "Enter command: " << endl;
 
@@ -233,5 +247,5 @@ int main()
 
 	cout << "Program exited!" << endl;
 
-    	return 0;
+	return 0;
 }
