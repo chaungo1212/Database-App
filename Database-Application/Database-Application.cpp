@@ -152,40 +152,40 @@ int main()
 		}
 		else if (command == "1")
 		{
-			/*
 			string userID;
 			cout << "Enter User ID: ";
 			cin >> userID;
 
-			users->designate_attribute_as_key("user_id");
-			Record user = users->get_record(userID);
-
-			//should print "NA" for unavailable data points
-			cout << "User ID: " << user.get(0) << endl
-			<< "Name: " << user.get(1) << endl
-			<< "Number of reviews: " << user.get(2) << endl
-			<< "Yelping since: " << user.get(3) << endl
-			<< "Average review rating: " << user.get(4) << endl;
-			*/
-
+			for(user = users->GetFirstRecord(); user != NULL; user++)
+			{
+				if( user->Get(0) == userID ) 
+				{
+					//should print "NA" for unavailable data points
+					cout << "User ID: " << user.Get(0) << endl
+						<< "Name: " << user.Get(1) << endl
+						<< "Number of reviews: " << user.Get(2) << endl
+						<< "Yelping since: " << user.Get(3) << endl
+						<< "Average review rating: " << user.Get(4) << endl;
+				}
+			}
 		}
 		else if (command == "2")
 		{
-			/*
 			string businessID;
 			cout << "Enter Business ID: ";
 			cin >> businessID;
 
-			businesses->designate_attribute_as_key("business_id");
-			Record business = businesses->get_record(businessID);
-
-			//should print "NA" for unavailable data points
-			cout << "Business ID: " << business.get(0) << endl
-			<< "Name: " << business.get(1) << endl
-			<< "Stars: " << business.get(2) << endl
-			<< "Number of reviews: " << business.get(3) << endl;
-			*/
-				
+			for(business = businesses->GetFirstRecord(); business != NULL; business++)
+			{
+				if( business->Get(0) == businessID )
+				{
+					//should print "NA" for unavailable data points
+					cout << "Business ID: " << business.Get(0) << endl
+						<< "Name: " << business.Get(1) << endl
+						<< "Stars: " << business.Get(2) << endl
+						<< "Number of reviews: " << business.Get(3) << endl;
+				}
+			}	
 		}
 		else if (command == "3")
 		{
