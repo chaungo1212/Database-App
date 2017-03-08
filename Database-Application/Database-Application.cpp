@@ -40,14 +40,14 @@ int main()
 			{
 				auto val = user[user_attributes.at(j)];
 				if (val.type() == json::value_t::string)
-					r.set(j, val);
+					r.Set(j, val);
 				else if (val.type() == json::value_t::number_unsigned)
 				{
 					int val_int = val;
-					r.set(j, to_string(val_int));
+					r.Set(j, to_string(val_int));
 				}
 			}
-			users->add_record(r);
+			users->InsertRecord(r);
 		}
 	}
 	yelp_data->add_table(*users, "users");

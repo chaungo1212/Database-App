@@ -1,78 +1,158 @@
-#pragma once
+// Database.h  Contains declaration of Function class  
+ #pragma once  
+ 
+ #include <string>
+ #include <vector>
+ #include <list>
+ #include <map>
+ #include <stack>
+ #include <sstream>
+ #include <iostream>
+ #include <algorithm>
 
-// Database.h - Contains declaration of Database, Table and Record classes  
-#pragma once  
+ #ifdef DATABASE_EXPORTS  
+ #define DATABASE_API __declspec(dllexport)   
+ #else  
+ #define DATABASE_API __declspec(dllimport)   
+ #endif  
 
-#ifdef DATABASE_EXPORTS  
-#define DATABASE_API __declspec(dllexport)   
-#else  
-#define DATABASE_API __declspec(dllimport)   
-#endif  
 
-#include <string>
-#include <map>
-#include <vector>
-#include <exception>
-#include <memory>
+namespace Database
+  {
+ 	class Record
+ 	{
+ 	public:
+ 		// value list
+ 		std::vector<std::string> values;
+ 		// Next Record*
+ 		Record* next;
+ 		// Create an empty record with size number of entries
+ 		DATABASE_API Record(int size);
+ 		// Return the size of the record	
+ 		DATABASE_API int GetSize();
+ 
+ 		// Get an attribute of a record
+ 		DATABASE_API std::string Get(int index);
+ 		// Set an attribute of a record
+ 		DATABASE_API void Set(int index, std::string new_value);
+ 		//***** Join two record
+ 		// This is the function I add in to join the table
+ 		Record Join(Record record2);
+ 		Record Join_wo_index2entry(Record record2, int index2);
 
-namespace Database {
-	class Record {
-		struct r_hider;
-		r_hider* r_ptr;	
-	public:
-		DATABASE_API Record(int size = 0);
-		DATABASE_API ~Record();
-		DATABASE_API int get_size();
-		DATABASE_API void add_attribute(std::string attribute);
-		DATABASE_API void remove_attribute(int position);
-		DATABASE_API void set(int position, std::string value);
-		DATABASE_API void set_key(int position);
-		DATABASE_API std::string get(int position);
-	};
+		void RemoveAt(int i);
+ 	};
 
-	class Table {
-		struct t_hider;
-		std::unique_ptr<t_hider> t_ptr;
-	public:
-		typedef std::map<std::string, Record>::iterator iterator;
-		DATABASE_API Table();
-		DATABASE_API Table(std::vector<std::string> attributes);
-		DATABASE_API ~Table();
-		DATABASE_API Table(const Table& other);
-		DATABASE_API Table(Table&&);
-		DATABASE_API Table& operator=(const Table& other);
-		DATABASE_API void add_attribute(std::string attribute_name);
-		DATABASE_API std::vector<std::string> get_attributes();
-		DATABASE_API std::map<std::string, Record> get_records();
-		DATABASE_API int get_size();
-		DATABASE_API void delete_attribute(std::string attribute);
-		DATABASE_API void add_record(Record r);
-		DATABASE_API void designate_attribute_as_key(std::string attribute_name);
-		DATABASE_API Table cross_join(Table t1, Table t2);
-		DATABASE_API Table natural_join(Table t1, Table t2);
-		DATABASE_API std::string minimum(std::string attribute_name);
-		DATABASE_API std::string maximum(std::string attribute_name);
-		DATABASE_API int count(std::string attribute_name);
-		DATABASE_API Record get_record(std::string key);
-		DATABASE_API Record get_record_at(int position);
-		DATABASE_API iterator begin();
-		DATABASE_API iterator end();
-	};
 
-	class Database {
-		struct d_hider;
-		std::unique_ptr<d_hider> d_ptr;
-	public:
-		DATABASE_API Database();
-		DATABASE_API ~Database();
-		DATABASE_API Database(const Database & other);
-		DATABASE_API Database & operator=(const Database & other);
-		DATABASE_API Database(Database&&);
-		DATABASE_API void add_table(Table t, std::string table_name);
-		DATABASE_API void drop_table(std::string table_name);
-		DATABASE_API std::map<std::string, Table> get_tables();
-		DATABASE_API std::vector<std::string> list_all_tables();
-		DATABASE_API Table query(std::string select, std::string from, std::string where);
 
-	};
-}
+
+ 	class Table
+
+  	{
+ 	private:
+ 		// Attributes lists
+ 		std::vector<std::string> attributes;
+ 		//	std::string key_attribute;
+ 		Record* head;
+ 	public:
+ 		std::string key_attribute;
+ 		// Constructs an empty table
+ 		DATABASE_API Table();
+
+  
+ 		// Constructs a table with all attributes in thsi list
+ 		DATABASE_API Table(std::vector<std::string> attributes);
+
+ 		DATABASE_API int getIndexOfAttribute(std::string attribute); 
+
+
+  
+ 		// Adds an attribute column to the end of the table
+ 		DATABASE_API void AddAttribute(std::string attribute_name);
+
+  
+ 		// Deletes an attribute column from the table
+ 		DATABASE_API void DeleteAttribute(std::string attribute_name);
+  
+ 		// Inserts a record into the table
+ 		DATABASE_API void InsertRecord(Record new_record);
+
+ 		// Returns a list of all attributes in the table
+ 		DATABASE_API std::vector<std::string> ListAttributes();
+
+  
+ 		// Get the size (number of records from the table)
+ 		DATABASE_API int GetSize();
+
+  
+ 		// Get an pointer to the first record, returns NULL if table is empty
+ 		// This pointer can then be used to iterate through the table
+ 		DATABASE_API Record* GetFirstRecord();
+
+ 		// Designate the key_name to be the key
+ 		DATABASE_API void DesignateKey(std::string key_name);
+
+  
+ 		// cross join joining table with this table
+ 		DATABASE_API Table CrossJoin(Table joining_table);
+
+  
+ 		// natural join joining table with this table
+ 		DATABASE_API Table NaturalJoin(Table joining_table);
+
+ 		// Count the nonnull entries of this attribute
+ 		DATABASE_API int Count(std::string attribute_name);
+
+ 		// Compute the maximum of the entries of this attribute
+ 		DATABASE_API std::string Max(std::string attribute);
+
+  
+ 		// Compute the minimum of the entries of this attribure
+ 		DATABASE_API std::string Min(std::string attribute);
+
+  
+ 		//Print table for debug 
+ 		void Print();
+
+		// Delete a record
+		void DeleteRecord(Record * r);
+ 	};
+
+  
+ 	// This class is exported from the Database.dll  
+ 	class Database
+ 
+  	{
+ 	private:
+ 		// A map of Table* with strings as the keys
+ 		std::map<std::string, Table*> all_tables;
+
+  
+ 	public:
+  
+ 		// Construct an empty database
+ 		DATABASE_API Database();
+  
+ 		// Add a table with name table_name to the database
+ 		DATABASE_API void Add(std::string table_name, Table* table);
+
+  
+ 		// Drop table table_name from the database
+ 		DATABASE_API void Drop(std::string table_name);
+
+  
+ 		// Returns a list of table names
+ 		DATABASE_API std::vector<std::string> ListTables();
+
+  
+ 		// Get pointers to all tables in the database
+ 		DATABASE_API std::vector<Table*> GetTables();
+
+  
+ 		// Query to return a table
+ 		DATABASE_API Table* Query(std::string SELECT, std::string FROM, std::string WHERE);
+
+  
+ 	};
+
+  }
