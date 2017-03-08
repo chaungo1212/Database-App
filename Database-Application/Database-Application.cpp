@@ -50,7 +50,7 @@ int main()
 			users->InsertRecord(r);
 		}
 	}
-	yelp_data->add_table(*users, "users");
+	yelp_data->Add("users",users);
 
 	// Create Business table
 	ifstream business_file("Yelp Data/yelp_academic_dataset_business.json");
@@ -66,17 +66,17 @@ int main()
 			{
 				auto val = business[business_attributes.at(j)];
 				if (val.type() == json::value_t::string)
-					r.set(j, val);
+					r.Set(j, val);
 				else if (val.type() == json::value_t::number_unsigned)
 				{
 					int val_int = val;
-					r.set(j, to_string(val_int));
+					r.Set(j, to_string(val_int));
 				}
 			}
-			businesses->add_record(r);
+			businesses->InsertRecord(r);
 		}
 	}
-	yelp_data->add_table(*businesses, "businesses");
+	yelp_data->Add("businesses",businesses);
 
 	// Create Review Table
 	ifstream review_file("Yelp Data/yelp_academic_dataset_review.json");
@@ -92,17 +92,17 @@ int main()
 			{
 				auto val = review[review_attributes.at(j)];
 				if (val.type() == json::value_t::string)
-					r.set(j, val);
+					r.Set(j, val);
 				else if (val.type() == json::value_t::number_unsigned)
 				{
 					int val_int = val;
-					r.set(j, to_string(val_int));
+					r.Set(j, to_string(val_int));
 				}
 			}
-			reviews->add_record(r);
+			reviews->InsertRecord(r);
 		}
 	}
-	yelp_data->add_table(*reviews, "reviews");
+	yelp_data->Add("reviews", reviews);
 
 	//create User x Review table
 	vector<string> user_review_attributes{ "review_id", "user_id", "stars", "date", "text" };
