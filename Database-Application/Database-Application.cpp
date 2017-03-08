@@ -113,7 +113,6 @@ int main()
 	vector<string> business_review_attributes{ "review_id", "business_id", "stars", "date", "text" };
 	Table* business_review = new Table(business_review_attributes);
 	*business_review = businesses->natural_join(*businesses, *reviews);
-	cout << "Here:" << business_review->get_size() << endl;
 
 	//Max and Min for user
 	string user_max = users->maximum("review_id");
