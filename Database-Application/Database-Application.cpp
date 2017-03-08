@@ -158,7 +158,16 @@ int main()
 			cout << "Enter User ID: ";
 			cin >> userID;
 
-			cout << "option 1 chosen" << endl;
+			users->designate_attribute_as_key("user_id");
+			Record user = users->get_record(userID);
+
+			//should print "NA" for unavailable data points
+			cout << "User ID: " << user.get(0) << endl
+				<< "Name: " << user.get(1) << endl
+				<< "Number of reviews: " << user.get(2) << endl
+				<< "Yelping since: " << user.get(3) << endl
+				<< "Average review rating: " << user.get(4) << endl;
+
 		}
 		else if (command == "2")
 		{
@@ -166,7 +175,15 @@ int main()
 			cout << "Enter Business ID: ";
 			cin >> businessID;
 
-			cout << "option 2 chosen" << endl;
+			businesses->designate_attribute_as_key("business_id");
+			Record business = businesses->get_record(businessID);
+
+			//should print "NA" for unavailable data points
+			cout << "Business ID: " << business.get(0) << endl
+				<< "Name: " << business.get(1) << endl
+				<< "Stars: " << business.get(2) << endl
+				<< "Number of reviews: " << business.get(3) << endl;
+				
 		}
 		else if (command == "3")
 		{
