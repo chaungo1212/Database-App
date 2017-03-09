@@ -195,14 +195,25 @@ int main()
 				}
 			}	
 		}
-		else if (command == "3")
-		{
-			string userID;
-			cout << "Enter User ID: ";
-			cin >> userID;
+		else if (command == "3") //user_review
+  {
+   string userID;
+   cout << "Enter User ID: ";
+   cin >> userID;
 
-			cout << "option 3 chosen" << endl;
-		}
+   Record* review;
+   int index_userID = user_review->->getIndexOfAttribute("user_id");
+   int index_review = user_review->getIndexOfAttribute("text");
+   for(review = user_review->GetFirstRecord(); review != NULL; review=review->next)
+   {
+    if( review->Get(index_review) == userID ) 
+    {
+     //should print "NA" for unavailable data points
+     cout << "User ID: " << review->Get(index_userID) << endl
+      << "Review text: " << user->Get(index_review) << endl
+    }
+   }
+  }
 		else if (command == "4")
 		{
 			string businessID;
