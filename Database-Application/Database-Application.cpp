@@ -222,16 +222,44 @@ int main()
 		}
 		else if (command == "7")
 		{
-			cout << "Finding the most popular user in the data set..." << endl;
+			try {
+				cout << "Finding the most popular user in the data set..." << endl;
+				string max_fans = users->Max("fans");
+				Table* user = yelp_data->Query("user_id", "users", "fans = " + max_fans);
+				cout << user->GetFirstRecord()->Get(0) << endl;
+			}
+			catch (...)
+			{
+				cout << "Unable to find user with the highest number of fans..." << endl;
+			}
+			
 		}
 		else if (command == "8")
 		{
-			cout << "Finding the user with the lowerst scoring average reviews..." << endl;
+			try {
+				cout << "Finding the user with the lowerst scoring average reviews..." << endl;
+				string min_review_avg = users->Min("average_stars");
+				Table* user = yelp_data->Query("user_id", "users", "average_stars = " + min_review_avg);
+				cout << user->GetFirstRecord()->Get(0) << endl;
+			}
+			catch (...)
+			{
+				cout << "Unable to find user with the lowerst scoring average reviews..." << endl;
+			}
+			
 		}
 		else if (command == "9")
 		{
-			cout << "Finding the user with the highest scoring average reviews..." << endl;
-
+			try {
+				cout << "Finding the user with the highest scoring average reviews..." << endl;
+				string max_review_avg = users->Max("average_stars");
+				Table* user = yelp_data->Query("user_id", "users", "average_stars = " + max_review_avg);
+				cout << user->GetFirstRecord()->Get(0) << endl;
+			}
+			catch (...)
+			{
+				cout << "Unable to find user with the highest scoring average reviews..." << endl;
+			}
 		}
 		else
 		{
