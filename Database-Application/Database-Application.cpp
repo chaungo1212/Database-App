@@ -135,8 +135,8 @@ int main()
 		<< "2) Print info about a given Business" << endl
 		<< "3) Show the reviews for a given User" << endl
 		<< "4) Show the reviews for a given Business" << endl
-		<< "5) Max and Min reviews for a given User" << endl
-		<< "6) Max and Min reviews for a Buisness" << endl
+		<< "5) Find Max and Min review counts in Users" << endl
+		<< "6) Find Max and Min review counts in Businesses" << endl
 		<< "7) Find the most popular user in the data set" << endl
 		<< "8) Find the user with the lowest scoring average reviews" << endl
 		<< "9) Find the user with the highest scoring average reviews" << endl
@@ -308,8 +308,8 @@ else if (command == "3") //user_review
 			<< "2) Print info about a given Business" << endl
 			<< "3) Show the reviews for a given User" << endl
 			<< "4) Show the reviews for a given Business" << endl
-			<< "5) Max and Min reviews for a given User" << endl
-			<< "6) Max and Min reviews for a Buisness" << endl
+			<< "5) Find Max and Min review counts in Users" << endl
+			<< "6) Find Max and Min review counts in Businesses" << endl
 			<< "7) Find the most popular user in the data set" << endl
 			<< "8) Find the user with the lowest scoring average reviews" << endl
 			<< "9) Find the user with the highest scoring average reviews" << endl
