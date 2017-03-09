@@ -195,7 +195,7 @@ int main()
 				}
 			}	
 		}
-	else if (command == "3") //user_review
+else if (command == "3") //user_review
   {
    string userID;
    cout << "Enter User ID: ";
@@ -210,11 +210,11 @@ int main()
     {
      //should print "NA" for unavailable data points
      cout << "User ID: " << review->Get(index_userID) << endl
-      << "Review text: " << user->Get(index_review) << endl
+      << "Review text: " << review->Get(index_review) << endl
     }
    }
   }
-	else if (command == "4") //business_review
+  else if (command == "4") //business_review
   {
    string businessID;
    cout << "Enter Business ID: ";
@@ -229,7 +229,7 @@ int main()
     {
      //should print "NA" for unavailable data points
      cout << "Business ID: " << review->Get(index_businessID) << endl
-      << "Review text: " << user->Get(index_review) << endl
+      << "Review text: " << review->Get(index_review) << endl
     }
    }
   }
