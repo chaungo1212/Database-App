@@ -15,6 +15,8 @@ using Table = Database::Table;
 using Record = Database::Record;
 using json = nlohmann::json;
 
+void PrintTable(Table* t);
+
 int main()
 {
 	DB* yelp_data = new DB();
@@ -23,7 +25,7 @@ int main()
 	parse JSON Format files and populate DB object
 	*/
 	string file_line = "";
-	int line_count = 10;
+	int line_count = 50;
 
 	// Create Users Table
 	ifstream user_file("Yelp Data/yelp_academic_dataset_user.json");
@@ -41,7 +43,7 @@ int main()
 				auto val = user[user_attributes.at(j)];
 				if (val.type() == json::value_t::string)
 					r.Set(j, val);
-				else if (val.type() == json::value_t::number_unsigned)
+				else if (val.type() == json::value_t::number_float)
 				{
 					int val_int = val;
 					r.Set(j, to_string(val_int));
@@ -67,9 +69,9 @@ int main()
 				auto val = business[business_attributes.at(j)];
 				if (val.type() == json::value_t::string)
 					r.Set(j, val);
-				else if (val.type() == json::value_t::number_unsigned)
+				else if (val.type() == json::value_t::number_float)
 				{
-					int val_int = val;
+					float val_int = val;
 					r.Set(j, to_string(val_int));
 				}
 			}
@@ -93,7 +95,7 @@ int main()
 				auto val = review[review_attributes.at(j)];
 				if (val.type() == json::value_t::string)
 					r.Set(j, val);
-				else if (val.type() == json::value_t::number_unsigned)
+				else if (val.type() == json::value_t::number_float)
 				{
 					int val_int = val;
 					r.Set(j, to_string(val_int));
@@ -103,25 +105,30 @@ int main()
 		}
 	}
 	yelp_data->Add("reviews", reviews);
-	/*
+	
+	cout << reviews->GetSize() << endl;
+	cout << users->GetSize() << endl;
+	cout << businesses->GetSize() << endl;
+
 	//create User x Review table
-	vector<string> user_review_attributes{ "review_id", "user_id", "stars", "date", "text" };
-	Table* user_review = new Table(user_review_attributes);
-	*user_review = users->natural_join(*users, *reviews);
+	Table* user_review = new Table();
+	*user_review = users->NaturalJoin(*reviews);
+//	cout << "Natural join for users and reviews: " << user_review->GetSize() << endl;
+//	PrintTable(user_review);
 
 	//create Business x Review table
-	vector<string> business_review_attributes{ "review_id", "business_id", "stars", "date", "text" };
-	Table* business_review = new Table(business_review_attributes);
-	*business_review = businesses->natural_join(*businesses, *reviews);
+	Table* business_review = new Table();
+	*business_review = businesses->NaturalJoin(*reviews);
+//	cout << "Natural join for business and reviews: " << business_review->GetSize() << endl;
+//	PrintTable(business_review);
 
 	//Max and Min for user
-	//	string user_max = users->maximum("review_id");
-	//	string user_min = users->minimum("review_id");
+		string user_max = users->Max("fans");
+		string user_min = users->Min("fans");
 
 	//Max and Min for business
-	//	string business_max = businesses->maximum("review_id");
-	//	string business_min = businesses->minimum("review_id");
-	*/
+		string business_max = businesses->Max("stars");
+		string business_min = businesses->Min("stars");	
 	
 	cout << "Options: " << endl
 		<< "1) Print info about a given User" << endl
@@ -263,4 +270,20 @@ int main()
 	cout << "Program exited!" << endl;
 
 	return 0;
+}
+
+void PrintTable(Table* t) {
+	std::cout << "====================================================\n";
+	Record* current = t->GetFirstRecord();
+	std::vector<std::string> values;
+	while (current != NULL) {
+		values = current->values;
+		std::cout << "----------------------------------------------------\n";
+		for (int i = 0; i < values.size(); i++)
+			std::cout << values[i] << " ";
+		std::cout << std::endl;
+		std::cout << "----------------------------------------------------\n";
+		current = current->next;
+	}
+	std::cout << "====================================================\n";
 }
