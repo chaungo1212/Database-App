@@ -106,10 +106,6 @@ int main()
 	}
 	yelp_data->Add("reviews", reviews);
 	
-	cout << reviews->GetSize() << endl;
-	cout << users->GetSize() << endl;
-	cout << businesses->GetSize() << endl;
-
 	//create User x Review table
 	Table* user_review = new Table();
 	*user_review = users->NaturalJoin(*reviews);
@@ -202,15 +198,15 @@ else if (command == "3") //user_review
    cin >> userID;
 
    Record* review;
-   int index_userID = user_review->->getIndexOfAttribute("user_id");
+   int index_userID = user_review->getIndexOfAttribute("user_id");
    int index_review = user_review->getIndexOfAttribute("text");
    for(review = user_review->GetFirstRecord(); review != NULL; review=review->next)
    {
     if( review->Get(index_userID) == userID ) 
     {
      //should print "NA" for unavailable data points
-     cout << "User ID: " << review->Get(index_userID) << endl
-      << "Review text: " << review->Get(index_review) << endl
+		cout << "User ID: " << review->Get(index_userID) << endl
+			<< "Review text: " << review->Get(index_review) << endl;
     }
    }
   }
@@ -221,15 +217,15 @@ else if (command == "3") //user_review
    cin >> businessID;
 
    Record* review;
-   int index_businessID = business_review->->getIndexOfAttribute("business_id");
+   int index_businessID = business_review->getIndexOfAttribute("business_id");
    int index_review = business_review->getIndexOfAttribute("text");
    for(review = business_review->GetFirstRecord(); review != NULL; review=review->next)
    {
     if( review->Get(index_businessID) == businessID ) 
     {
      //should print "NA" for unavailable data points
-     cout << "Business ID: " << review->Get(index_businessID) << endl
-      << "Review text: " << review->Get(index_review) << endl
+		cout << "Business ID: " << review->Get(index_businessID) << endl
+			<< "Review text: " << review->Get(index_review) << endl;
     }
    }
   }
