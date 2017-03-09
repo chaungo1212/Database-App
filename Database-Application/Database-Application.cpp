@@ -233,14 +233,16 @@ else if (command == "3") //user_review
     }
    }
   }
-		else if (command == "5")
-		{
-			string userID;
-			cout << "Enter User ID: ";
-			cin >> userID;
-
-			cout << "option 5 chosen" << endl;
-		}
+	else if (command == "5") // Find Users with Max and min review 
+  {
+   cout << "Max review counts in Users: " << users->Max("review_count") << endl
+    << "Min review counts in Users: " << users->Min("review_count") << endl;
+  }
+  else if (command == "6") // Find Businesses with Max and min review 
+  {
+   cout << "Max review counts in Businesses: " << businesses->Max("review_count") << endl
+    << "Min review counts in Businesses: " << businesses->Min("review_count") << endl;
+  }
 		else if (command == "6")
 		{
 			string businessID;
