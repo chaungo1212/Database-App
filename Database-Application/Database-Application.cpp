@@ -195,7 +195,7 @@ int main()
 				}
 			}	
 		}
-		else if (command == "3") //user_review
+	else if (command == "3") //user_review
   {
    string userID;
    cout << "Enter User ID: ";
@@ -206,7 +206,7 @@ int main()
    int index_review = user_review->getIndexOfAttribute("text");
    for(review = user_review->GetFirstRecord(); review != NULL; review=review->next)
    {
-    if( review->Get(index_review) == userID ) 
+    if( review->Get(index_userID) == userID ) 
     {
      //should print "NA" for unavailable data points
      cout << "User ID: " << review->Get(index_userID) << endl
